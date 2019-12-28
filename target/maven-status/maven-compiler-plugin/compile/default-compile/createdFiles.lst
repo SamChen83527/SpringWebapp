@@ -1,0 +1,11 @@
+idv\sam\springwebapp\service\impl\UserManagerImpl.class
+idv\sam\springwebapp\service\UserManager.class
+idv\sam\springwebapp\controller\HelloWorldController.class
+idv\sam\springwebapp\dao\Dao.class
+idv\sam\springwebapp\dao\impl\UserDaoImpl.class
+idv\sam\springwebapp\Main.class
+idv\sam\springwebapp\model\User.class
+idv\sam\springwebapp\dao\impl\UserMapper.class
+idv\sam\springwebapp\dao\UserDao.class
+idv\sam\springwebapp\controller\ExampleController.class
+idv\sam\springwebapp\controller\UserController.class
