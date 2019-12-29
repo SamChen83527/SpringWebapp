@@ -17,4 +17,5 @@ public interface UserManager {
 	
 	Boolean validateUser(String username, String password);
 
+	User userLogin(String username, String password);
 }

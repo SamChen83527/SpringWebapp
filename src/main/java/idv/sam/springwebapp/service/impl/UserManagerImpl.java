@@ -18,7 +18,7 @@ public class UserManagerImpl implements UserManager{
 	@Override
 	public User getUserByUsernameAndPassword(String username, String password) {
 		
-		User user = userDao.getByUsernameAndPassword(username, password);
+		User user = userDao.getUserByUsernameAndPassword(username, password);
 		
 		return user;
 	}
@@ -27,11 +27,30 @@ public class UserManagerImpl implements UserManager{
 	public Boolean validateUser(String username, String password) {
 		Boolean validation =  false;
 		
-		if (userDao.getByUsernameAndPassword(username, password) != null ) {
+		if (userDao.getUserByUsernameAndPassword(username, password) != null ) {
 			validation = true;
 		}
 		
 		return validation;
+	}
+	
+	@Override
+	public User userLogin(String username, String password) {
+		User userInfo;
+		// check user name
+		if (userDao.countUsernameNumber(username) == 1) {
+			// check password
+			if (userDao.validateUserPassword(username, password)) {
+				// response user information
+				userInfo = userDao.getUserByUsernameAndPassword(username, password);
+			} else {
+				userInfo = null;
+			}
+		} else {
+			// Please register first.
+			userInfo = null;
+		}
+		return userInfo;
 	}
 	
 	/* Registration */

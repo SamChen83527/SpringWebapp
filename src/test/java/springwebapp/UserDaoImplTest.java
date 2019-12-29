@@ -79,6 +79,11 @@ public class UserDaoImplTest {
 		userdaoimp.deleteById(rid);
 		userdaoimp.getByUsername("henryHello");
 		
+		// getUsernameIfExists
+		System.out.println(userdaoimp.countUsernameNumber("fff"));
+		// validateUserPassword
+		System.out.println(userdaoimp.validateUserPassword("stupidhenry","00000000"));
+		
 		//close the context
 		((AbstractApplicationContext) context).close();
 	}

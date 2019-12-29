@@ -24,27 +24,14 @@ public class UserController {
 	/* Constructor Dependency Injection */
 	public UserController(UserManager userManager) {
 		this.userManager = userManager; 
-	}	
-
-	/* GET */
-	@RequestMapping(value="/getuserbyfullname", method=RequestMethod.GET)
-	public ModelAndView getByFullname(
-			@RequestParam(value = "firstname", required = true) String fname,
-			@RequestParam(value = "lastname", required = true) String lname) {
-		System.out.println("Get user by full name");
-		
-		User user = userManager.getUserByFullname(fname, lname);
-		
-		ModelAndView mv = new ModelAndView("usergetbyfullname"); // target view
-		mv.addObject("user", user);
-		return mv;
 	}
 	
-	/* POST */	
-	/* Use BufferedReader */
+	/* GET */
+	
+	/* POST */
 	@RequestMapping(value = "/userlogin", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView userLogin(HttpServletRequest request) throws IOException {
+	public String userLogin(HttpServletRequest request) throws IOException {
 		System.out.println("User Login");
 		
 		/* Parse request body*/
@@ -59,20 +46,23 @@ public class UserController {
 	    
 	    String requestbody = builder.toString();
 	    System.out.println("Request body: " + requestbody);	    
-	    JSONObject requestbody_json = new JSONObject(requestbody);	    
+	    JSONObject requestbody_json = new JSONObject(requestbody);
 	    
 	    /* User validation */
-	    Boolean validation = userManager.validateUser(requestbody_json.getString("username"), requestbody_json.getString("password") );
-	    String resp;
-	    if (validation == true) {
-	    	resp = "Welcome back.";
+	    User userLoginInfo = userManager.userLogin(requestbody_json.getString("username"), requestbody_json.getString("password") );
+	    JSONObject response_json = new JSONObject(); 
+	    if (userLoginInfo != null) {
+	    	response_json
+	    		.put("validation", "valid")
+	    		.put("user_firstname", userLoginInfo.getFirstname())
+	    		.put("user_lastname", userLoginInfo.getLastname())
+	    		.put("user_email", userLoginInfo.getEmail())
+	    		.put("user_username", userLoginInfo.getUsername());
 	    } else {
-	    	resp = "Sorry! Please register first.";
+	    	response_json.put("validation", "invalid");
 	    }
-	    ModelAndView mv = new ModelAndView("usergetbyfullname"); 	// target view
-		mv.addObject(resp);
-		return mv;
+	    
+	    return response_json.toString();
 	}
-	
 	
 }
