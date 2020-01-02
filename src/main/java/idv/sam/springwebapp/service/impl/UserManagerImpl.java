@@ -6,13 +6,13 @@ import idv.sam.springwebapp.model.User;
 import idv.sam.springwebapp.service.UserManager;
 
 public class UserManagerImpl implements UserManager{
-
-	private UserDao userDao;
-	
 	/* Dependency Injection */
+	private UserDao userDao;
 	public UserManagerImpl(UserDao userDao) {
 		this.userDao = userDao;
 	}
+	
+	
 	
 	/* Login */
 	@Override
@@ -24,10 +24,18 @@ public class UserManagerImpl implements UserManager{
 	}
 	
 	@Override
-	public Boolean validateUser(String username, String password) {
+	public User getUserByEmailAndPassword(String email, String password) {
+		
+		User user = userDao.getUserByEmailAndPassword(email, password);
+		
+		return user;
+	}
+	
+	@Override
+	public Boolean validateUser(String email, String password) {
 		Boolean validation =  false;
 		
-		if (userDao.getUserByUsernameAndPassword(username, password) != null ) {
+		if (userDao.getUserByEmailAndPassword(email, password) != null ) {
 			validation = true;
 		}
 		
@@ -35,14 +43,14 @@ public class UserManagerImpl implements UserManager{
 	}
 	
 	@Override
-	public User userLogin(String username, String password) {
+	public User userLogin(String email, String password) {
 		User userInfo;
 		// check user name
-		if (userDao.countUsernameNumber(username) == 1) {
+		if (userDao.countUserEmailNumber(email) == 1) {
 			// check password
-			if (userDao.validateUserPassword(username, password)) {
+			if (userDao.validateUserPassword(email, password)) {
 				// response user information
-				userInfo = userDao.getUserByUsernameAndPassword(username, password);
+				userInfo = userDao.getUserByEmailAndPassword(email, password);
 			} else {
 				userInfo = null;
 			}
@@ -55,26 +63,37 @@ public class UserManagerImpl implements UserManager{
 	
 	/* Registration */
 	@Override
-	public void insertUser(User user) {
+	public Boolean emailIsExists(String email) {
+		int count = userDao.countUserEmailNumber(email);
+		Boolean isExists = (!(count == 0)) ? true : false;
 		
+		return isExists;
+	}
+	
+	@Override
+	public Boolean usernameIsExists(String username) {
+		int count = userDao.countUsernameNumber(username);
+		Boolean isExists = (!(count == 0)) ? true : false;
+		
+		return isExists;
+	}
+	
+	@Override
+	public Boolean registerUser(User user) {		
 		userDao.insert(user);
 		
+		int count = userDao.countUsernameNumber(user.getUsername());		
+		Boolean isExists = (!(count == 0)) ? true : false;
+		
+		return isExists;		
 	}
 	
 	
 	/* Practice */
 	@Override
-	public String getUserEmailByUsername(String username) {		
-		
-		User user = userDao.getByUsername(username);
-		
-		return user.getEmail();
-	}
-	
-	@Override
 	public User getUserByFullname(String firstname, String lastname) {		
 		
-		User user = userDao.getByFullname(firstname, lastname);
+		User user = userDao.getUserByFullname(firstname, lastname);
 		
 		return user;
 	}

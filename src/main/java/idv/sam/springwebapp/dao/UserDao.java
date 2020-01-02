@@ -9,22 +9,23 @@ import idv.sam.springwebapp.model.User;
  */
 public interface UserDao extends Dao<User>{
 	// CREATE
-    void insert(User t);
-	
-	// READ
-    User getById(long id);
-    // READ BY USERNAME
-    User getByUsername(String username);
-    // READ BY USERNAME AND PASSWORD
+    void insert(User t);	
+    
+    // READ ALL USERS
+    List<User> getAll();
+    
+    // READ USER
+    User getUserByUsername(String username);
     User getUserByUsernameAndPassword(String username, String password);
-    // READ BY FULLNAME
-    User getByFullname(String firstname, String lastname);
+    User getUserByEmailAndPassword(String email, String password);
+    User getUserByFullname(String firstname, String lastname);
+    
     // COUNT USERNAME NUMBER
     Integer countUsernameNumber(String username);
+    // COUNT USER EMAIL NUMBER
+    Integer countUserEmailNumber(String email);
     // VALIDATE USER PASSWORD
-    Boolean validateUserPassword(String username, String password);
-    // READ ALL
-    List<User> getAll();
+    Boolean validateUserPassword(String email, String password);
     
     // UPDATE
     void update(User t);
@@ -35,4 +36,6 @@ public interface UserDao extends Dao<User>{
     void delete(User t);
     // DELETE by Id
     void deleteById(long id);
+
+	
 }

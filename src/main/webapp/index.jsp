@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,11 +17,15 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
 
-<!-- Custom styles for this template-->
-<link href="<c:url value="resources/theme1/css/login_style.css" />" rel="stylesheet">
+<!-- Custom styles for this template
+<link href="/resources/css/login_style.css" rel="stylesheet" type="text/css"> -->
+
+<link href="<c:url value="/resources/css/login_style.css" />"
+	rel="stylesheet">
+<script src="/resources/javascript/login.js"></script>
 </head>
 
 <body>
@@ -35,32 +41,33 @@
 						<div class="row">
 							<div class="col-md-9 col-lg-8 mx-auto">
 								<h3 class="login-heading mb-4">Welcome back!</h3>
-								<form>
+
+								<form action="users/userlogin" method="post">
 									<div class="form-label-group">
-										<input type="email" id="inputEmail" class="form-control"
-											placeholder="Email address" required autofocus> <label
-											for="inputEmail">Email address</label>
+										<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+										<label for="inputEmail">Email address</label>
 									</div>
 
 									<div class="form-label-group">
-										<input type="password" id="inputPassword" class="form-control"
-											placeholder="Password" required> <label
-											for="inputPassword">Password</label>
+										<input type="password" id="inputPassword" class="form-control" placeholder="Password" required> 
+										<label for="inputPassword">Password</label>
 									</div>
 
 									<div class="custom-control custom-checkbox mb-3">
-										<input type="checkbox" class="custom-control-input"
-											id="customCheck1"> <label
-											class="custom-control-label" for="customCheck1">Remember
-											password</label>
+										<input type="checkbox" class="custom-control-input" id="customCheck1"> 
+										<label class="custom-control-label" for="customCheck1">Remember password</label>
 									</div>
 									<button
 										class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
-										type="submit">Sign in</button>
+										type="button" onClick="doUserLogin()">
+										Sign in
+										
+									</button>
 									<div class="text-center">
 										<a class="small" href="#">Forgot password?</a>
 									</div>
 								</form>
+
 							</div>
 						</div>
 					</div>

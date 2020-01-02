@@ -39,17 +39,11 @@ public class UserDaoImplTest {
 		System.out.println(user3.getFirstname() + " " + user3.getLastname() + ": " + user3.getEmail() +" / " + user3.getUsername() +" / "+ user3.getPassword());
 	
 		// READ DATA BY USERNAME
-		User user4 = userdaoimp.getByUsername("sea0c00s");
+		User user4 = userdaoimp.getUserByUsername("sea0c00s");
 		if (user4 == null)
 			System.out.println("NULL");
 		else
 			System.out.println("getByUsername: " + user4.getFirstname() + " " + user4.getLastname() + ": " + user4.getEmail() +" / " + user4.getUsername() +" / "+ user4.getPassword());
-		
-			
-	
-		// READ DATA BY FULLNAME
-		User user5 = userdaoimp.getByFullname("Sam", "Chen");
-		System.out.println("getByFullname: " + user5.getFirstname() + " " + user5.getLastname() + ": " + user5.getEmail() +" / " + user5.getUsername() +" / "+ user5.getPassword());
 		
 		// READ ALL DATA
 		List<User> users = userdaoimp.getAll();System.out.println("");
@@ -61,23 +55,23 @@ public class UserDaoImplTest {
 		String update_username = "shelley";
 		String update_password = "NOISyyyyyy";
 		userdaoimp.updateByUsername(update_password, update_username);
-		User user6 = userdaoimp.getByUsername("shelley");
+		User user6 = userdaoimp.getUserByUsername("shelley");
 		System.out.println("getByFullname: " + user6.getFirstname() + " " + user6.getLastname() + ": " + user6.getEmail() +" / " + user6.getUsername() +" / "+ user6.getPassword());
 		
 		// DELETE DATA BY BEAN
 		User user7 = new User("Huanci","Ho","henry@gmail.com","henrysuck","ugly");
 		userdaoimp.insert(user7);		
-		User user8 = userdaoimp.getByUsername("henrysuck");
+		User user8 = userdaoimp.getUserByUsername("henrysuck");
 		System.out.println("getByUsername: " + user8.getFirstname() + " " + user8.getLastname() + ": " + user8.getEmail() +" / " + user8.getUsername() +" / "+ user8.getPassword());
 		userdaoimp.delete(user8);
 		
 		// DELETE DATA BY ID
 		User user9 = new User("Huanci","Hohoho","henry@gmail.com","henryHello","ugly");
 		userdaoimp.insert(user9);
-		User user10 = userdaoimp.getByUsername("henryHello");
+		User user10 = userdaoimp.getUserByUsername("henryHello");
 		long rid = user10.getRid();
 		userdaoimp.deleteById(rid);
-		userdaoimp.getByUsername("henryHello");
+		userdaoimp.getUserByUsername("henryHello");
 		
 		// getUsernameIfExists
 		System.out.println(userdaoimp.countUsernameNumber("fff"));

@@ -95,9 +95,10 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
-
-	public User getByUsername(String username) {
-		String sql = "SELECT * FROM registration WHERE username = ?";
+	
+	@Override
+	public User getUserByUsername(String username) {
+		String sql = "SELECT NULL AS rid, firstname, lastname, email, username, NULL AS password FROM registration WHERE username = ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		try {
@@ -111,7 +112,6 @@ public class UserDaoImpl implements UserDao {
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
-		
 	}
 	
 	@Override
@@ -131,9 +131,27 @@ public class UserDaoImpl implements UserDao {
 			return null;
 		}
 	}
+	
+	@Override
+	public User getUserByEmailAndPassword(String email, String password) {
+		String sql = "SELECT NULL AS rid, firstname, lastname, email, username, NULL AS password FROM registration WHERE email = ? AND password = ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		try {
+			User user = jdbcTemplate.queryForObject(
+					sql, 
+					new Object[] { email, password }, 
+					new UserMapper()
+				);
+			
+			return user;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 
 	@Override
-	public User getByFullname(String firstname, String lastname) {
+	public User getUserByFullname(String firstname, String lastname) {
 		String sql = "SELECT * FROM registration WHERE firstname = ? AND lastname = ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
@@ -175,24 +193,48 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public Boolean validateUserPassword(String username, String password) {
-		String sql = "SELECT COUNT(1) FROM registration WHERE username = ? AND password =?";
+	public Integer countUserEmailNumber(String email) {
+		String sql = "SELECT COUNT(1) FROM registration WHERE email = ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		try {
-			Integer username_count = jdbcTemplate.queryForObject(
+			Integer useremail_count = jdbcTemplate.queryForObject(
 					sql, 
-					new Object[] { username, password }, 
+					new Object[] { email }, 
 					new RowMapper<Integer>() {		
 						@Override
 						public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-							Integer username_count = rs.getInt("COUNT(1)");	
-							return username_count;
+							Integer useremail_count = rs.getInt("COUNT(1)");	
+							return useremail_count;
+						}
+					}
+				);
+	
+			return useremail_count;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public Boolean validateUserPassword(String email, String password) {
+		String sql = "SELECT COUNT(1) FROM registration WHERE email = ? AND password =?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		try {
+			Integer useremail_count = jdbcTemplate.queryForObject(
+					sql, 
+					new Object[] { email, password }, 
+					new RowMapper<Integer>() {		
+						@Override
+						public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+							Integer count = rs.getInt("COUNT(1)");	
+							return count;
 						}
 					}
 				);
 			
-			if (username_count == 1)
+			if (useremail_count == 1)
 				return true;
 			else
 				return false;
@@ -296,9 +338,5 @@ public class UserDaoImpl implements UserDao {
 		} else
 			System.out.println("No User found with id: " + id);
 	}
-
-
-
-	
 
 }

@@ -24,7 +24,8 @@
 	<context:annotation-config/>
 	
 	<!-- 網頁資源路徑 -->
-	<mvc:resources mapping="/resources/**" location="/resources/theme1/" />
+	<!-- <mvc:resources mapping="/resources/**" location="/resources/theme1/" /> 
+	<mvc:resources mapping="/resources/**" location="/resources/css/**"/> -->
 	
 	<!-- 掃描 Component Annotation -->
 	<context:component-scan base-package="idv.sam.springwebapp.controller" /> 

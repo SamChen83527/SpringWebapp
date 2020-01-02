@@ -35,21 +35,7 @@ public class ExampleController {
 	}
 	
 	/* GET Example */	
-	// GET with ModelAndView
-	@RequestMapping("/getuseremail/ModelAndView")
-	public ModelAndView getUserEmailByUsernameWithMV(
-			@RequestParam(value = "name", required = false, defaultValue = "username") String name) {
-		
-		System.out.println("Get user email");
-		
-		String email = userManager.getUserEmailByUsername(name);
- 
-		ModelAndView mv = new ModelAndView("userget"); 				// target view
-		mv.addObject("message", "Get User Email:<br/>");
-		mv.addObject("email", email);
-		return mv;
-	}
-	
+	// GET with ModelAndView	
 	@RequestMapping("/getalluser/ModelAndView")
 	public ModelAndView getAllUserWithMV(
 			@RequestParam(value = "name", required = false, defaultValue = "all") String name) {
@@ -76,21 +62,7 @@ public class ExampleController {
 		return mv;
 	}
 	
-	// GET with Model
-	@RequestMapping("/getuseremail/Model")
-	public String getUserEmailByUsernameWithM(
-			@RequestParam(value = "name", required = false) String name,
-			Model model) {
-		
-		System.out.println("Get user email");
-		
-		String email = userManager.getUserEmailByUsername(name);
-
-		model.addAttribute("message", "Get User Email:<br/>");
-		model.addAttribute("email", email);
-		return "userget"; 											// target view
-	}
-	
+	// GET with Model	
 	@RequestMapping(value="/getalluser/Model", method=RequestMethod.GET)
 	public String getAllUserWithM(
 			@RequestParam(value = "name", required = false) String name,
@@ -144,7 +116,7 @@ public class ExampleController {
 	    User user = userManager.getUserByFullname(ujson.getString("firstname"), ujson.getString("lastname"));
 	    
 	    ModelAndView mv = new ModelAndView("usergetbyfullname"); 	// target view
-		mv.addObject(user);
+		mv.addObject("user", user);
 		return mv;
 	}
 	
