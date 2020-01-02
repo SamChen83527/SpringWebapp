@@ -15,7 +15,7 @@ public class HelloWorldController {
 		System.out.println("in controller");
 		
  
-		ModelAndView mv = new ModelAndView("helloworld"); // target view
+		ModelAndView mv = new ModelAndView("example/helloworld"); // target view
 		mv.addObject("message", message);
 		mv.addObject("name", name);
 		return mv;

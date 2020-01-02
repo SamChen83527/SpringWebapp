@@ -1,10 +1,14 @@
 package idv.sam.springwebapp.dao.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
 import idv.sam.springwebapp.dao.UserDao;
 import idv.sam.springwebapp.model.User;
 
@@ -111,8 +115,8 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public User getByUsernameAndPassword(String username, String password) {
-		String sql = "SELECT firstname, lastname, email, username FROM registration WHERE username = ? AND password = ?";
+	public User getUserByUsernameAndPassword(String username, String password) {
+		String sql = "SELECT NULL AS rid, firstname, lastname, email, username, NULL AS password FROM registration WHERE username = ? AND password = ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		try {
@@ -141,6 +145,57 @@ public class UserDaoImpl implements UserDao {
 				);
 	
 			return user;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public Integer countUsernameNumber(String username) {
+		String sql = "SELECT COUNT(1) FROM registration WHERE username = ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		try {
+			Integer username_count = jdbcTemplate.queryForObject(
+					sql, 
+					new Object[] { username }, 
+					new RowMapper<Integer>() {		
+						@Override
+						public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+							Integer username_count = rs.getInt("COUNT(1)");	
+							return username_count;
+						}
+					}
+				);
+	
+			return username_count;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public Boolean validateUserPassword(String username, String password) {
+		String sql = "SELECT COUNT(1) FROM registration WHERE username = ? AND password =?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		try {
+			Integer username_count = jdbcTemplate.queryForObject(
+					sql, 
+					new Object[] { username, password }, 
+					new RowMapper<Integer>() {		
+						@Override
+						public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+							Integer username_count = rs.getInt("COUNT(1)");	
+							return username_count;
+						}
+					}
+				);
+			
+			if (username_count == 1)
+				return true;
+			else
+				return false;
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
@@ -241,6 +296,8 @@ public class UserDaoImpl implements UserDao {
 		} else
 			System.out.println("No User found with id: " + id);
 	}
+
+
 
 	
 

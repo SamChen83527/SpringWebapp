@@ -16,9 +16,13 @@ public interface UserDao extends Dao<User>{
     // READ BY USERNAME
     User getByUsername(String username);
     // READ BY USERNAME AND PASSWORD
-    User getByUsernameAndPassword(String username, String password);
+    User getUserByUsernameAndPassword(String username, String password);
     // READ BY FULLNAME
     User getByFullname(String firstname, String lastname);
+    // COUNT USERNAME NUMBER
+    Integer countUsernameNumber(String username);
+    // VALIDATE USER PASSWORD
+    Boolean validateUserPassword(String username, String password);
     // READ ALL
     List<User> getAll();
     
