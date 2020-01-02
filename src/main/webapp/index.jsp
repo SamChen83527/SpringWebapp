@@ -25,7 +25,7 @@
 
 <link href="<c:url value="/resources/css/login_style.css" />"
 	rel="stylesheet">
-<script src="/resources/javascript/login.js"></script>
+<script src="<c:url value="/resources/javascript/login.js" />" ></script>
 </head>
 
 <body>
@@ -42,7 +42,7 @@
 							<div class="col-md-9 col-lg-8 mx-auto">
 								<h3 class="login-heading mb-4">Welcome back!</h3>
 
-								<form action="users/userlogin" method="post">
+								<form>
 									<div class="form-label-group">
 										<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
 										<label for="inputEmail">Email address</label>
@@ -58,14 +58,13 @@
 										<label class="custom-control-label" for="customCheck1">Remember password</label>
 									</div>
 									<button
+										type="button"
 										class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
-										type="button" onClick="doUserLogin()">
-										Sign in
+										onclick="doUserLogin()">Sign in</button>
 										
-									</button>
 									<div class="text-center">
 										<a class="small" href="#">Forgot password?</a>
-									</div>
+									</div>									
 								</form>
 
 							</div>

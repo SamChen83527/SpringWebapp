@@ -59,25 +59,32 @@ public class UserController {
 	    
 	    /* User validation */
 	    User userLoginInfo = userManager.userLogin(requestbody_json.getString("email"), requestbody_json.getString("password") );
-	    JSONObject response_json = new JSONObject(); 
+	    //JSONObject response_json = new JSONObject(); 
 	    if (userLoginInfo != null) {
-	    	response_json
+	    	/*response_json
 	    		.put("validation", "valid")
 	    		.put("firstname", userLoginInfo.getFirstname())
 	    		.put("lastname", userLoginInfo.getLastname())
 	    		.put("email", userLoginInfo.getEmail())
-	    		.put("username", userLoginInfo.getUsername());
+	    		.put("username", userLoginInfo.getUsername());*/
+	    	
+	    	ModelAndView mv = new ModelAndView("userhomepage"); 	// target view
+		    mv.addObject("validation", "valid");
+		    mv.addObject("firstname", userLoginInfo.getFirstname());
+		    mv.addObject("lastname", userLoginInfo.getLastname());
+		    mv.addObject("email", userLoginInfo.getEmail());
+		    mv.addObject("username", userLoginInfo.getUsername());
+		    return mv;
 	    } else {
-	    	response_json.put("validation", "invalid");
+	    	//response_json.put("validation", "invalid");
+	    	ModelAndView mv = new ModelAndView("userhomepage"); 	// target view
+		    mv.addObject("validation", "invalid");
+		    mv.addObject("firstname", null);
+		    mv.addObject("lastname", null);
+		    mv.addObject("email", null);
+		    mv.addObject("username", null);
+		    return mv;
 	    }
-	    
-	    ModelAndView mv = new ModelAndView("redirect:/userhomepage"); 	// target view
-	    mv.addObject("validation", "valid");
-	    mv.addObject("firstname", userLoginInfo.getFirstname());
-	    mv.addObject("lastname", userLoginInfo.getLastname());
-	    mv.addObject("email", userLoginInfo.getEmail());
-	    mv.addObject("username", userLoginInfo.getUsername());
-	    return mv;
 	}
 	
 	@RequestMapping(value = "/userregistration", method = RequestMethod.POST)

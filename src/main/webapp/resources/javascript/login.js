@@ -1,7 +1,7 @@
 /**
  * This is the JavaScript file for login
  */
-var service_url = "localhost:8080/springwebapp";
+var service_url = "http://localhost:8080/springwebapp";
 
 //a function for AJAX (return "xmlhttp")
 function InitXmlHttp(){
@@ -24,17 +24,17 @@ function sendRequest(xmlhttp, requestURL, requestBody, handler){
 }
 
 function doUserLogin() {
-	var username = document.getElementById("inputEmail").value;
+	var email = document.getElementById("inputEmail").value;
 	var userpassword = document.getElementById("inputPassword").value;
 	
-	var requestURL = servie_url + "/users/userlogin";
+	var requestURL = service_url + "/users/userlogin";
 	var requestbody = {
 			"email": email,
-			"password": password
+			"password": userpassword
 	}
 	
 	var xmlhttp = InitXmlHttp();
-	sendRequest( xmlhttp, requestURL, function(){doUserLoginHandler(xmlhttp)} );
+	sendRequest( xmlhttp, requestURL, JSON.stringify(requestbody), function(){doUserLoginHandler(xmlhttp)} );
 }
 
 function doUserLoginHandler(xmlhttp){
