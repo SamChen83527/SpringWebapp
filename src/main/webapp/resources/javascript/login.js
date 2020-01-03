@@ -44,6 +44,7 @@ function doUserLoginHandler(xmlhttp){
 }
 
 function parseLoginInfo(login_string) {
+	window.location.href = service_url + "/users/userlogin";
 	var userInfo = JSON.parse(login_string);
 	
 	var user_firstname = userInfo["firstname"];

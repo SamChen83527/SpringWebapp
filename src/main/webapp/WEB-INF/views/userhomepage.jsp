@@ -14,7 +14,6 @@
 	<table border="1">
 
 		<tr>
-			<th>Validation</th>
 			<th>First Name</th>
 			<th>Last Name</th>
 			<th>User Email</th>
@@ -22,11 +21,10 @@
 		</tr>
 
 		<tr>
-			<td>${validation}</td>
-			<td>${firstname}</td>
-			<td>${lastname}</td>
-			<td>${email}</td>
-			<td>${username}</td>
+			<td>${user.firstname}</td>
+			<td>${user.lastname}</td>
+			<td>${user.email}</td>
+			<td>${user.username}</td>
 		</tr>
 
 	</table>

@@ -9,6 +9,7 @@ public class User {
     private String email;
     private String username;
     private String password;
+    private String userStatus;
     
     public User(){}
     
@@ -28,6 +29,13 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+    }
+    
+    public User(String firstname, String lastname, String email, String username){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.username = username;
     }
     
     public long getRid() {
@@ -89,5 +97,13 @@ public class User {
     		.put("password", getPassword());
     	
 		return user_jsonobject.toString();
+	}
+
+	public String getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
 	}
 }

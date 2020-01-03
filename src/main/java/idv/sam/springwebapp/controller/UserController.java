@@ -2,21 +2,22 @@ package idv.sam.springwebapp.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import idv.sam.springwebapp.model.Login;
 import idv.sam.springwebapp.model.User;
 import idv.sam.springwebapp.service.UserManager;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 	/* Service Bean */
 	UserManager userManager;
@@ -29,65 +30,36 @@ public class UserController {
 	/* GET */
 	
 	/* POST */
-	@RequestMapping(value = "/userlogin", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView userLogin(HttpServletRequest request) throws IOException {
+	public ModelAndView userLogin(HttpServletRequest request, RedirectAttributes redirectAttributes, @ModelAttribute("login") Login login) throws IOException {
 		System.out.println("User Login");
 		
-		/* Expect user login request 
-		 *
-		 * 	{
-		 * 		"email":"email",
-		 * 		"password":"password"
-		 * 	}
-		 *
-		 * */
-		
-		/* Parse request body*/
-		BufferedReader reader = request.getReader();
-	    StringBuilder builder = new StringBuilder();
-	    String line = reader.readLine();
-	    while (line != null) {
-	        builder.append(line);
-	        line = reader.readLine();
-	    }
-	    reader.close();
-	    
-	    String requestbody = builder.toString();
-	    System.out.println("Request body: " + requestbody);	    
-	    JSONObject requestbody_json = new JSONObject(requestbody);
-	    
-	    /* User validation */
-	    User userLoginInfo = userManager.userLogin(requestbody_json.getString("email"), requestbody_json.getString("password") );
-	    //JSONObject response_json = new JSONObject(); 
-	    if (userLoginInfo != null) {
-	    	/*response_json
-	    		.put("validation", "valid")
-	    		.put("firstname", userLoginInfo.getFirstname())
-	    		.put("lastname", userLoginInfo.getLastname())
-	    		.put("email", userLoginInfo.getEmail())
-	    		.put("username", userLoginInfo.getUsername());*/
-	    	
-	    	ModelAndView mv = new ModelAndView("userhomepage"); 	// target view
-		    mv.addObject("validation", "valid");
-		    mv.addObject("firstname", userLoginInfo.getFirstname());
-		    mv.addObject("lastname", userLoginInfo.getLastname());
-		    mv.addObject("email", userLoginInfo.getEmail());
-		    mv.addObject("username", userLoginInfo.getUsername());
-		    return mv;
-	    } else {
-	    	//response_json.put("validation", "invalid");
-	    	ModelAndView mv = new ModelAndView("userhomepage"); 	// target view
-		    mv.addObject("validation", "invalid");
-		    mv.addObject("firstname", null);
-		    mv.addObject("lastname", null);
-		    mv.addObject("email", null);
-		    mv.addObject("username", null);
-		    return mv;
-	    }
+		/* User validation */
+		User userInfo = userManager.userLogin(login.getEmail(), login.getPassword());
+		if (userInfo.getUserStatus() == "valid") {
+			System.out.println("Login successful");
+			redirectAttributes.addFlashAttribute("userInfo", userInfo);
+			ModelAndView mv = new ModelAndView("redirect:/homepage");
+			return mv;
+		} else {
+			String message = "";
+			if (userInfo.getUserStatus() == "RegistrationNotExist") {
+				System.out.println("Please register first!");
+				message = "Please register first!";
+				redirectAttributes.addFlashAttribute("message", message);
+			}
+			else if (userInfo.getUserStatus() == "PasswordError") {
+				System.out.println("Password is wrong!");
+				message = "Password is wrong!";
+				redirectAttributes.addFlashAttribute("message", message);
+			}
+			ModelAndView mv = new ModelAndView("redirect:/"); // use RedirectAttributes to redirect to controller '/'.
+			return mv;
+		}
 	}
 	
-	@RequestMapping(value = "/userregistration", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	@ResponseBody
 	public String userRegistration(HttpServletRequest request) throws IOException {
 		System.out.println("User Registration");

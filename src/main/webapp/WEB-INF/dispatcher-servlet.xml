@@ -29,6 +29,7 @@
 	
 	<!-- 掃描 Component Annotation -->
 	<context:component-scan base-package="idv.sam.springwebapp.controller" /> 
+	<context:component-scan base-package="idv.sam.springwebapp.model" /> 
 
 	<!-- ViewResolver(Controller 返回 jsp 頁面設定) -->
 	<bean

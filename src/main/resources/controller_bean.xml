@@ -4,6 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean id="indexController"
+		class="idv.sam.springwebapp.controller.IndexController">
+	</bean>
+	
 	<bean id="userController"
 		class="idv.sam.springwebapp.controller.UserController">
 

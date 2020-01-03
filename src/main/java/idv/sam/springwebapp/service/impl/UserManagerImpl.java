@@ -51,12 +51,15 @@ public class UserManagerImpl implements UserManager{
 			if (userDao.validateUserPassword(email, password)) {
 				// response user information
 				userInfo = userDao.getUserByEmailAndPassword(email, password);
+				userInfo.setUserStatus("valid");
 			} else {
-				userInfo = null;
+				userInfo = new User();
+				userInfo.setUserStatus("PasswordError");
 			}
 		} else {
 			// Please register first.
-			userInfo = null;
+			userInfo = new User();
+			userInfo.setUserStatus("RegistrationNotExist");
 		}
 		return userInfo;
 	}
