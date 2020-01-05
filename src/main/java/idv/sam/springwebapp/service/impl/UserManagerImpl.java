@@ -3,6 +3,7 @@ package idv.sam.springwebapp.service.impl;
 import java.util.List;
 import idv.sam.springwebapp.dao.UserDao;
 import idv.sam.springwebapp.model.User;
+import idv.sam.springwebapp.model.UserLogin;
 import idv.sam.springwebapp.service.UserManager;
 
 public class UserManagerImpl implements UserManager{
@@ -43,25 +44,25 @@ public class UserManagerImpl implements UserManager{
 	}
 	
 	@Override
-	public User userLogin(String email, String password) {
-		User userInfo;
+	public UserLogin userLogin(String email, String password) {
+		UserLogin userLogin = new UserLogin();
 		// check user name
 		if (userDao.countUserEmailNumber(email) == 1) {
 			// check password
 			if (userDao.validateUserPassword(email, password)) {
 				// response user information
-				userInfo = userDao.getUserByEmailAndPassword(email, password);
-				userInfo.setUserStatus("valid");
+				userLogin.setLogin(userDao.getUserByEmailAndPassword(email, password));
+				userLogin.setLoginStatus("VALID");
 			} else {
-				userInfo = new User();
-				userInfo.setUserStatus("PasswordError");
+				userLogin = new UserLogin();
+				userLogin.setLoginStatus("INVALID_PASSWORD_ERROR");
 			}
 		} else {
 			// Please register first.
-			userInfo = new User();
-			userInfo.setUserStatus("RegistrationNotExist");
+			userLogin = new UserLogin();
+			userLogin.setLoginStatus("INVALID_REGISTRATION_NOTEXIST");
 		}
-		return userInfo;
+		return userLogin;
 	}
 	
 	/* Registration */

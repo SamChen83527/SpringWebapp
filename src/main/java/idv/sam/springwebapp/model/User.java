@@ -2,14 +2,13 @@ package idv.sam.springwebapp.model;
 
 import org.json.JSONObject;
 
-public class User {
+public class User {	
 	private long rid;
 	private String firstname;
     private String lastname;
     private String email;
     private String username;
     private String password;
-    private String userStatus;
     
     public User(){}
     
@@ -99,11 +98,4 @@ public class User {
 		return user_jsonobject.toString();
 	}
 
-	public String getUserStatus() {
-		return userStatus;
-	}
-
-	public void setUserStatus(String userStatus) {
-		this.userStatus = userStatus;
-	}
 }

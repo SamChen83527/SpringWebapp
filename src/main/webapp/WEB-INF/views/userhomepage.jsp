@@ -21,10 +21,10 @@
 		</tr>
 
 		<tr>
-			<td>${user.firstname}</td>
-			<td>${user.lastname}</td>
-			<td>${user.email}</td>
-			<td>${user.username}</td>
+			<td>${userInfo.firstname}</td>
+			<td>${userInfo.lastname}</td>
+			<td>${userInfo.email}</td>
+			<td>${userInfo.username}</td>
 		</tr>
 
 	</table>

@@ -2,6 +2,7 @@ package idv.sam.springwebapp.service;
 
 import java.util.List;
 import idv.sam.springwebapp.model.User;
+import idv.sam.springwebapp.model.UserLogin;
 
 public interface UserManager {
 	
@@ -15,7 +16,7 @@ public interface UserManager {
 	
 	Boolean validateUser(String email, String password);
 
-	User userLogin(String email, String password);
+	UserLogin userLogin(String email, String password);
 	
 	Boolean usernameIsExists(String username);
 	

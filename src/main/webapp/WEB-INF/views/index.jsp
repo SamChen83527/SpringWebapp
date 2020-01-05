@@ -44,6 +44,7 @@
 							<div class="col-md-9 col-lg-8 mx-auto">
 								<h3 class="login-heading mb-4">${message}</h3>
 
+								<!-- Require Login() Object -->
 								<form:form id="loginForm" modelAttribute="login" action="user/login" method="POST">
 								<!-- @modelAttribute annotates a bound model from this-view-invoking controller -->
 									
@@ -66,12 +67,19 @@
 									<form:button
 										class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
 										type="submit">Sign in</form:button>
-										
+									
 									<div class="text-center">
 										<a class="small" href="#">Forgot password?</a>
 									</div>
+									
+									<hr class="my-4">
 								</form:form>
-
+								<form id="registerForm">
+									<button
+										class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
+										onclick="location.href='http://localhost:8080/springwebapp/user/register'"
+										type="button">Registers</button>
+								</form>
 							</div>
 						</div>
 					</div>
