@@ -38,7 +38,7 @@ public class UserController {
 	}
 	
 	/* POST */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
 	public ModelAndView userLogin(HttpServletRequest request, RedirectAttributes redirectAttributes, @ModelAttribute("login") UserLogin login) throws IOException {
 		System.out.println("User Login");
@@ -74,9 +74,9 @@ public class UserController {
 		
 	    String username = user_registration.getUsername();
 	    String email = user_registration.getEmail();
-	    String firstname = user_registration.getFirstname();
-	    String lastname = user_registration.getLastname();
 	    String password = user_registration.getPassword();
+	    String firstname = user_registration.getFirstname();
+	    String lastname = user_registration.getLastname();	    
 	    
 	    Boolean emailIsExists = userManager.emailIsExists(email);
 	    Boolean usernameIsExists = userManager.usernameIsExists(username);
@@ -84,16 +84,16 @@ public class UserController {
 	    if (!emailIsExists) {
 	    	System.out.println("emailIsExists: False");
 	    	if (!usernameIsExists) {
-	    		// register user to the database	  
-	    		User user = new User(firstname, lastname, username, email, password);
+	    		// register user to the database
+	    		User user = new User(firstname, lastname, email, username, password);
 		    	userManager.registerUser(user);
 		    	user_registration.setRegistationStatus("VALID");
 		    	System.out.println("Register successful");
 		    	
-		    	// login		    	
-		    	UserLogin userLoginInfo = userManager.userLogin(email, password);
-				redirectAttributes.addFlashAttribute("userLoginInfo", userLoginInfo);
-				ModelAndView mv = new ModelAndView("redirect:/homepage");
+		    	// login
+		    	UserLogin userLoginInfo = new UserLogin(email, password);
+				redirectAttributes.addFlashAttribute("login", userLoginInfo);
+				ModelAndView mv = new ModelAndView("redirect:/user/login");
 				return mv;
 	    	} else {
 	    		System.out.println("User name has been used!");

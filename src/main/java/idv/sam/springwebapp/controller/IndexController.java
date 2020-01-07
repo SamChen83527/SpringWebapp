@@ -42,7 +42,7 @@ public class IndexController {
 		} else {
 			ModelAndView mv = new ModelAndView("index"); // target view
 			mv.addObject("login", new UserLogin());
-			mv.addObject("message", "Welcome back!");
+			mv.addObject("message", "Welcome back!!");
 			return mv;
 		}
 	}

@@ -13,8 +13,6 @@ public class UserManagerImpl implements UserManager{
 		this.userDao = userDao;
 	}
 	
-	
-	
 	/* Login */
 	@Override
 	public User getUserByUsernameAndPassword(String username, String password) {
@@ -54,12 +52,10 @@ public class UserManagerImpl implements UserManager{
 				userLogin.setLogin(userDao.getUserByEmailAndPassword(email, password));
 				userLogin.setLoginStatus("VALID");
 			} else {
-				userLogin = new UserLogin();
 				userLogin.setLoginStatus("INVALID_PASSWORD_ERROR");
 			}
 		} else {
 			// Please register first.
-			userLogin = new UserLogin();
 			userLogin.setLoginStatus("INVALID_REGISTRATION_NOTEXIST");
 		}
 		return userLogin;

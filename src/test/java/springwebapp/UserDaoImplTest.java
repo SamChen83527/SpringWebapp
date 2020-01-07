@@ -33,10 +33,10 @@ public class UserDaoImplTest {
 		userdaoimp.insert(new User(firstname,lastname,email,username,password));
 		
 		// READ DATA BY ID		
-		User user2 = userdaoimp.getById(1);
-		System.out.println(user2.getFirstname() + " " + user2.getLastname() + ": " + user2.getEmail() +" / " + user2.getUsername() +" / "+ user2.getPassword());
-		User user3 = userdaoimp.getById(2);
-		System.out.println(user3.getFirstname() + " " + user3.getLastname() + ": " + user3.getEmail() +" / " + user3.getUsername() +" / "+ user3.getPassword());
+//		User user2 = userdaoimp.getById(1);
+//		System.out.println(user2.getFirstname() + " " + user2.getLastname() + ": " + user2.getEmail() +" / " + user2.getUsername() +" / "+ user2.getPassword());
+//		User user3 = userdaoimp.getById(2);
+//		System.out.println(user3.getFirstname() + " " + user3.getLastname() + ": " + user3.getEmail() +" / " + user3.getUsername() +" / "+ user3.getPassword());
 	
 		// READ DATA BY USERNAME
 		User user4 = userdaoimp.getUserByUsername("sea0c00s");
