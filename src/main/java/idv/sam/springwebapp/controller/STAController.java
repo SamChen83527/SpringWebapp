@@ -16,35 +16,23 @@ import idv.sam.springwebapp.model.UserLogin;
 @Controller
 @RequestMapping("/data")
 public class STAController {
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView index(@ModelAttribute("message") String message) throws IOException {
-		System.out.println("Welcome page");
-        ModelAndView mv = new ModelAndView("index"); // target view
-        mv.addObject("login", new UserLogin());
-        if (message.isEmpty()) {
-        	mv.addObject("message", "Welcome back!");
-        } else {
-        	mv.addObject("message", message);
-        }        
-		return mv;
+	@RequestMapping(value = "/getuserdevice", method = RequestMethod.GET)
+    public void getUserDevice() throws IOException {
+		System.out.println("Get user device info");
+		
     }
 	
-	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
+	@RequestMapping(value = "/getobservations", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView userHomePage(@ModelAttribute("userInfo") UserLogin userLoginInfo) throws IOException {
-		System.out.println("User Home Page");
+	public void getObservations() throws IOException {
+		System.out.println("Get observations");
 		
-		/* Validate GET Request*/
-		if (userLoginInfo.getLoginStatus() == "VALID") {
-			/* Return home page view */
-			ModelAndView mv = new ModelAndView("userhomepage");
-			mv.addObject("userLoginInfo", userLoginInfo);
-			return mv;
-		} else {
-			ModelAndView mv = new ModelAndView("index"); // target view
-			mv.addObject("login", new UserLogin());
-			mv.addObject("message", "Welcome back!!");
-			return mv;
-		}
+	}
+	
+	@RequestMapping(value = "/getlatestobservation", method = RequestMethod.GET)
+	@ResponseBody
+	public void getLatestObservation() throws IOException {
+		System.out.println("Get latest observation");
+		
 	}
 }
