@@ -78,6 +78,11 @@ public class UserDaoImplTest {
 		// validateUserPassword
 		System.out.println(userdaoimp.validateUserPassword("stupidhenry","00000000"));
 		
+		// getUsernameIfExists
+		System.out.println(userdaoimp.countUsernameNumber("fff"));
+		// validateUserPassword
+		System.out.println(userdaoimp.validateUserPassword("stupidhenry","00000000"));
+		
 		//close the context
 		((AbstractApplicationContext) context).close();
 	}
