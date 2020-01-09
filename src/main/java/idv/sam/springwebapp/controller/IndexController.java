@@ -24,7 +24,7 @@ import idv.sam.springwebapp.model.UserLogin;
 // Index page (Login)
 @Controller
 public class IndexController {
-	@RequestMapping(value = "/staticpage", method = RequestMethod.GET)	
+	@RequestMapping(value = "/staticpagetest", method = RequestMethod.GET)	
     public String staticrss() throws IOException {
 		
 		System.out.println("Welcome page");
