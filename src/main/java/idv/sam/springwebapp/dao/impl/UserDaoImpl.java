@@ -134,7 +134,7 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	public User getUserByEmailAndPassword(String email, String password) {
-		String sql = "SELECT NULL AS rid, firstname, lastname, email, username, NULL AS password FROM registration WHERE email = ? AND password = ?";
+		String sql = "SELECT NULL AS rid, firstname, lastname, email, username, password FROM registration WHERE email = ? AND password = ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		try {

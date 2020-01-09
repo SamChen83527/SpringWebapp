@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- WebApplicationContext -->	
+<!-- WebApplicationContext -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:tx="http://www.springframework.org/schema/tx"
@@ -16,23 +16,25 @@
 							http://www.springframework.org/schema/tx/spring-tx.xsd
 							http://www.springframework.org/schema/aop
 							http://www.springframework.org/schema/aop/spring-aop.xsd">
-	
+
 	<!-- 啟用 Spring MVC annotation 配置 -->
 	<mvc:annotation-driven />
-	
+
 	<!-- 啟用透過 annotation 注入 bean -->
-	<context:annotation-config/>
-	
+	<context:annotation-config />
+
 	<!-- 網頁資源路徑 -->
-	<!-- <mvc:resources mapping="/resources/**" location="/resources/theme1/" /> 
-	<mvc:resources mapping="/resources/**" location="/resources/css/**"/> -->
-	
+	<!-- <mvc:resources mapping="/resources/**" location="/resources/theme1/" 
+		/> <mvc:resources mapping="/resources/**" location="/resources/css/**"/> -->
+
 	<!-- 掃描 Component Annotation -->
-	<context:component-scan base-package="idv.sam.springwebapp.controller" /> 
-	<context:component-scan base-package="idv.sam.springwebapp.model" /> 
+	<context:component-scan
+		base-package="idv.sam.springwebapp.controller" />
+	<context:component-scan
+		base-package="idv.sam.springwebapp.model" />
 
 	<!-- ViewResolver(Controller 返回 jsp 頁面設定) -->
-	<bean
+	<bean id="jspviewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<!-- mapping 檔案名稱前墜(檔案路徑) -->
 		<property name="prefix" value="/WEB-INF/views/" />
