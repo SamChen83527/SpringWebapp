@@ -27,7 +27,7 @@
 
 <link href="<c:url value="/resources/css/login_style.css" />"
 	rel="stylesheet">
-<script src="<c:url value="/resources/javascript/login.js" />" ></script>
+<!-- script src="<c:url value="/resources/javascript/login.js" />" ></script -->
 </head>
 
 <body>

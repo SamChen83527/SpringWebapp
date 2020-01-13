@@ -29,10 +29,10 @@ public class UserController {
 	/* GET */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView enterRegistration(HttpServletRequest request) throws IOException {
+	public ModelAndView enterRegistration() throws IOException {
 		System.out.println("User Registration");		
 		
-		ModelAndView mv = new ModelAndView("registration"); // use RedirectAttributes to redirect to controller '/'.
+		ModelAndView mv = new ModelAndView("registration");
 		mv.addObject("user_registration", new UserRegistation());
 		return mv;
 	}

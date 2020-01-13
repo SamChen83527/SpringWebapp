@@ -15,19 +15,11 @@ function InitXmlHttp(){
 	return xmlhttp;
 }
 
-//send HTTP GET request to service
-function sendRequest(xmlhttp, requestURL, requestBody, handler){
-    xmlhttp.onreadystatechange = handler; // assign the function to parse the response
-    xmlhttp.open("POST", requestURL, true );
-    xmlhttp.setRequestHeader("Content-type","application/json");
-    xmlhttp.send(requestBody);
-}
-
 function doUserLogin() {
 	var email = document.getElementById("inputEmail").value;
 	var userpassword = document.getElementById("inputPassword").value;
 	
-	var requestURL = service_url + "/users/userlogin";
+	var requestURL = service_url + "/user/login";
 	var requestbody = {
 			"email": email,
 			"password": userpassword
@@ -37,6 +29,14 @@ function doUserLogin() {
 	sendRequest( xmlhttp, requestURL, JSON.stringify(requestbody), function(){doUserLoginHandler(xmlhttp)} );
 }
 
+//send HTTP POST request to service
+function sendRequest(xmlhttp, requestURL, requestBody, handler){
+    xmlhttp.onreadystatechange = handler; // assign the function to parse the response
+    xmlhttp.open("POST", requestURL, true);
+    xmlhttp.setRequestHeader("Content-type","application/json");
+    xmlhttp.send(requestBody);
+}
+
 function doUserLoginHandler(xmlhttp){
 	if (xmlhttp.readyState==4 && xmlhttp.status==200){
 		parseLoginInfo( xmlhttp.responseText ); // use parseGetThingResponse function to parse the JSON string
@@ -44,13 +44,5 @@ function doUserLoginHandler(xmlhttp){
 }
 
 function parseLoginInfo(login_string) {
-	window.location.href = service_url + "/users/userlogin";
-	var userInfo = JSON.parse(login_string);
 	
-	var user_firstname = userInfo["firstname"];
-	var user_lastname = userInfo["lastname"];
-	var user_email = userInfo["email"];
-	var user_username = userInfo["username"];
 }
-
-
