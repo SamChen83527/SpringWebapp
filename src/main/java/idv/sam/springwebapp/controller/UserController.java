@@ -1,8 +1,13 @@
 package idv.sam.springwebapp.controller;
 
 import java.io.IOException;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,10 +32,11 @@ public class UserController {
 	}
 	
 	/* GET */
+	/* return page */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView enterRegistration() throws IOException {
-		System.out.println("User Registration");		
+		System.out.println("User Registration");
 		
 		ModelAndView mv = new ModelAndView("registration");
 		mv.addObject("user_registration", new UserRegistation());
@@ -40,17 +46,26 @@ public class UserController {
 	/* POST */
 	@RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
-	public ModelAndView userLogin(HttpServletRequest request, RedirectAttributes redirectAttributes, @ModelAttribute("login") UserLogin login) throws IOException {
+	public ModelAndView userLogin(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			RedirectAttributes redirectAttributes, 
+			@ModelAttribute("login") UserLogin login) throws IOException {
 		System.out.println("User Login");
 		
 		/* User validation */
 		UserLogin userLoginInfo = userManager.userLogin(login.getEmail(), login.getPassword());
+		
+		// Login valid
 		if (userLoginInfo.getLoginStatus() == "VALID") {
 			System.out.println("Login successful");
+			
 			redirectAttributes.addFlashAttribute("userInfo", userLoginInfo);
 			ModelAndView mv = new ModelAndView("redirect:/homepage");
 			return mv;
-		} else {
+		} 
+		// Login invalid
+		else {
 			String message = "";
 			if (userLoginInfo.getLoginStatus() == "INVALID_REGISTRATION_NOTEXIST") {
 				System.out.println("Sorry! Please register first!");
@@ -69,7 +84,10 @@ public class UserController {
 	
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView userRegistration(HttpServletRequest request, RedirectAttributes redirectAttributes, @ModelAttribute("user_registration") UserRegistation user_registration) throws IOException {
+	public ModelAndView userRegistration(
+			HttpServletRequest request, 
+			RedirectAttributes redirectAttributes,
+			@ModelAttribute("user_registration") UserRegistation user_registration) throws IOException {
 		System.out.println("User Registration");
 		
 	    String username = user_registration.getUsername();

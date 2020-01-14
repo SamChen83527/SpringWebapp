@@ -143,7 +143,6 @@ public class UserDaoImpl implements UserDao {
 					new Object[] { email, password }, 
 					new UserMapper()
 				);
-			
 			return user;
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -248,21 +247,21 @@ public class UserDaoImpl implements UserDao {
 		String sql = "SELECT * FROM registration";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-		// List<User> userList = new ArrayList<User>();
-		// List<Map<String, Object>> userRows = jdbcTemplate.queryForList(sql);
-		//
-		// for (Map<String, Object> userRow : userRows) {
-		// User user = new User();
-		//
-		// user.setRid(Integer.parseInt(String.valueOf(userRow.get("rid"))));
-		// user.setFirstname(String.valueOf(userRow.get("firstname")));
-		// user.setLastname(String.valueOf(userRow.get("lastname")));
-		// user.setEmail(String.valueOf(userRow.get("email")));
-		// user.setUsername(String.valueOf(userRow.get("username")));
-		// user.setPassword(String.valueOf(userRow.get("password")));
-		//
-		// userList.add(user);
-		// }
+//		 List<User> userList = new ArrayList<User>();
+//		 List<Map<String, Object>> userRows = jdbcTemplate.queryForList(sql);
+//		
+//		 for (Map<String, Object> userRow : userRows) {
+//			 User user = new User();
+//			
+//			 user.setRid(Integer.parseInt(String.valueOf(userRow.get("rid"))));
+//			 user.setFirstname(String.valueOf(userRow.get("firstname")));
+//			 user.setLastname(String.valueOf(userRow.get("lastname")));
+//			 user.setEmail(String.valueOf(userRow.get("email")));
+//			 user.setUsername(String.valueOf(userRow.get("username")));
+//			 user.setPassword(String.valueOf(userRow.get("password")));
+//			
+//			 userList.add(user);
+//		 }
 
 		try {
 			List<User> userList = jdbcTemplate.query(sql, new UserMapper());

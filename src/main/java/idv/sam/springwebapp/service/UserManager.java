@@ -23,5 +23,9 @@ public interface UserManager {
 	Boolean emailIsExists(String email);
 
 	Boolean registerUser(User user);
+
+	String createJWT(String username, String email);
+
+	Boolean validateJWT(String clientJWTCookie);
 	
 }

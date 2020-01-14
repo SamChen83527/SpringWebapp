@@ -6,6 +6,9 @@
 
 	<bean id="indexController"
 		class="idv.sam.springwebapp.controller.IndexController">
+		
+		<!-- Constructor-based Injection -->
+		<constructor-arg index="0" ref="userManagerImpl" />
 	</bean>
 	
 	<bean id="userController"
