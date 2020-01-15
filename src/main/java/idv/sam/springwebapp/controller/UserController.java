@@ -43,6 +43,46 @@ public class UserController {
 		return mv;
 	}
 	
+	/* return page */
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView userLogout(
+			HttpServletRequest request, 
+			HttpServletResponse response,
+			RedirectAttributes redirectAttributes) throws IOException {
+		System.out.println("User Logout");
+		
+		// remove cookie
+//		Cookie userEmailCookie = new Cookie("loginUserEmail", "");
+//		userEmailCookie.setPath("/");
+//		userEmailCookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
+//		response.addCookie(userEmailCookie);
+//		
+//		Cookie usernameCookie = new Cookie("loginUsername", "");
+//		usernameCookie.setPath("/");
+//		usernameCookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
+//		response.addCookie(usernameCookie);
+//		
+//		Cookie jwtCookie = new Cookie("loginJWT", "");
+//		jwtCookie.setPath("/");
+//		jwtCookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
+//		response.addCookie(jwtCookie);
+
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			cookie.setMaxAge(0);
+			cookie.setValue(null);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+		}
+				
+		// login
+		redirectAttributes.addFlashAttribute("message", "Welcome back!");
+//		redirectAttributes.addFlashAttribute("response", response);
+		ModelAndView mv = new ModelAndView("redirect:/");
+		return mv;
+	}
+	
 	/* POST */
 	@RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
@@ -60,10 +100,12 @@ public class UserController {
 		if (userLoginInfo.getLoginStatus() == "VALID") {
 			System.out.println("Login successful");
 			
+			/* Redirect to home view */
 			redirectAttributes.addFlashAttribute("userInfo", userLoginInfo);
-			ModelAndView mv = new ModelAndView("redirect:/homepage");
+			ModelAndView mv = new ModelAndView("redirect:/home");
 			return mv;
-		} 
+		}
+		
 		// Login invalid
 		else {
 			String message = "";

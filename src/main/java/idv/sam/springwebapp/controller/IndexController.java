@@ -1,6 +1,7 @@
 package idv.sam.springwebapp.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -14,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import idv.sam.springwebapp.model.UserLogin;
 import idv.sam.springwebapp.service.UserManager;
 
 // Index page (Login)
 @Controller
-public class IndexController {	
+public class IndexController {
 	/* Service Bean */
 	UserManager userManager;
 	
@@ -32,22 +34,50 @@ public class IndexController {
 	/* return page */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index(
-    		@ModelAttribute("message") String message) throws IOException {
+    		RedirectAttributes redirectAttributes,
+    		@ModelAttribute("message") String message,
+    		@CookieValue(value = "loginJWT", defaultValue = "") String clientJWTCookie) throws IOException {
 		
 		System.out.println("Welcome page");
+		/*
+		 * Check cookie to determine return login view or homepage view
+		 * * If JWT is invalid	--> index(login) view
+		 * * If JWT is valid	--> hompage view
+		 */
 		
-        ModelAndView mv = new ModelAndView("index"); // target view
-        mv.addObject("login", new UserLogin());
-        if (message.isEmpty()) {
-        	mv.addObject("message", "Welcome back!");
-        } else {
-        	mv.addObject("message", message);
-        }
-		return mv;
+		// Client cookie is valid.
+		if (clientJWTCookie!=""  && userManager.validateJWT(clientJWTCookie)) {
+			System.out.println("Client cookie is valid.");
+			
+			// Get user info with JWT
+			UserLogin userLoginInfo = userManager.getUserByJWT(clientJWTCookie);			
+			
+			/* Redirect to home view */
+			redirectAttributes.addFlashAttribute("userInfo", userLoginInfo);
+			ModelAndView mv = new ModelAndView("redirect:/home");
+			return mv;
+		}
+		
+		// Client cookie is invalid, login manually first.
+		else {
+			System.out.println("Client cookie is invalid, login manually first.");
+			ModelAndView mv = new ModelAndView("index"); // target view
+			mv.addObject("login", new UserLogin());
+			mv.addObject("message", "Welcome back!!");
+			return mv;
+		}
+		
+//		ModelAndView mv = new ModelAndView("index", "login", new UserLogin()); // target view
+//        if (message.isEmpty()) {        	
+//        	mv.addObject("message", "Welcome back!");
+//        } else {
+//        	mv.addObject("message", message);
+//        }
+//		return mv;
     }
 	
 	/* return page */
-	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView userHomePage(
 			HttpServletResponse response, 

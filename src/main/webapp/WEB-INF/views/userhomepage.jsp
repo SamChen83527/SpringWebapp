@@ -133,6 +133,13 @@
 		</tr>
 
 	</table>
+	
+	<form id="registerForm">
+		<button
+			class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
+			onclick="location.href='http://localhost:8080/springwebapp/user/logout'"
+			type="button">Logout</button>
+	</form>
 
 
 	<!-- Optional JavaScript -->

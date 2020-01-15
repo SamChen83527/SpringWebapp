@@ -63,6 +63,17 @@ public class UserManagerImpl implements UserManager{
 		}
 		return userLogin;
 	}
+
+	@Override
+	public UserLogin getUserByJWT(String clientJWTCookie) {
+		
+		Claims claims = JWTManager.decodeJWT(clientJWTCookie);
+		String username = claims.getAudience();
+		
+		UserLogin userLogin = new UserLogin();
+		userLogin.setLogin(userDao.getUserByUsername(username));
+		return userLogin;
+	}
 	
 	/* Authtication */
 	@Override
