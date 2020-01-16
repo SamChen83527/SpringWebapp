@@ -1,2 +1,4 @@
+springwebapp\JWTManagerTest.class
 springwebapp\UserDaoImplTest.class
 springwebapp\UserTest.class
+springwebapp\UserMapperTest.class

@@ -126,10 +126,10 @@
 		</tr>
 
 		<tr>
-			<td>${userInfo.firstname}</td>
+			<!-- <td>${userInfo.firstname}</td>
 			<td>${userInfo.lastname}</td>
 			<td>${userInfo.email}</td>
-			<td>${userInfo.username}</td>
+			<td>${userInfo.username}</td> -->
 		</tr>
 
 	</table>
@@ -137,7 +137,7 @@
 	<form id="registerForm">
 		<button
 			class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
-			onclick="location.href='http://localhost:8080/springwebapp/user/logout'"
+			onclick="location.href='/springwebapp/user/logout'"
 			type="button">Logout</button>
 	</form>
 

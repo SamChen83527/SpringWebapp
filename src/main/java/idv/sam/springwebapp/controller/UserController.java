@@ -2,12 +2,10 @@ package idv.sam.springwebapp.controller;
 
 import java.io.IOException;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,34 +49,10 @@ public class UserController {
 			HttpServletResponse response,
 			RedirectAttributes redirectAttributes) throws IOException {
 		System.out.println("User Logout");
-		
-		// remove cookie
-//		Cookie userEmailCookie = new Cookie("loginUserEmail", "");
-//		userEmailCookie.setPath("/");
-//		userEmailCookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
-//		response.addCookie(userEmailCookie);
-//		
-//		Cookie usernameCookie = new Cookie("loginUsername", "");
-//		usernameCookie.setPath("/");
-//		usernameCookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
-//		response.addCookie(usernameCookie);
-//		
-//		Cookie jwtCookie = new Cookie("loginJWT", "");
-//		jwtCookie.setPath("/");
-//		jwtCookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
-//		response.addCookie(jwtCookie);
 
-		Cookie[] cookies = request.getCookies();
-		for (Cookie cookie : cookies) {
-			cookie.setMaxAge(0);
-			cookie.setValue(null);
-			cookie.setPath("/");
-			response.addCookie(cookie);
-		}
-				
 		// login
 		redirectAttributes.addFlashAttribute("message", "Welcome back!");
-//		redirectAttributes.addFlashAttribute("response", response);
+		redirectAttributes.addFlashAttribute("login", false);
 		ModelAndView mv = new ModelAndView("redirect:/");
 		return mv;
 	}
