@@ -2,6 +2,7 @@ package idv.sam.springwebapp.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,20 +32,44 @@ public class UserController {
 	
 	/* GET */
 	/* return page */
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView enterRegistration() throws IOException {
+	public ModelAndView enterRegistrationPage() throws IOException {
 		System.out.println("User Registration");
 		
-		ModelAndView mv = new ModelAndView("registration");
+		ModelAndView mv = new ModelAndView("registration_page");
 		mv.addObject("user_registration", new UserRegistation());
+		return mv;
+	}
+	
+	/* return page */
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView enterLoginPage(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		System.out.println("User Login");
+		
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				cookie.setMaxAge(0);
+				cookie.setValue(null);
+				cookie.setPath("/springwebapp");
+				response.addCookie(cookie);
+			}
+		}
+		
+		ModelAndView mv = new ModelAndView("login_page"); // target view
+		mv.addObject("login", new UserLogin());
+		mv.addObject("message", "Welcome back!!");
 		return mv;
 	}
 	
 	/* return page */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView userLogout(
+	public ModelAndView logout_ctrl(
 			HttpServletRequest request, 
 			HttpServletResponse response,
 			RedirectAttributes redirectAttributes) throws IOException {
@@ -52,13 +77,12 @@ public class UserController {
 
 		// login
 		redirectAttributes.addFlashAttribute("message", "Welcome back!");
-		redirectAttributes.addFlashAttribute("login", false);
-		ModelAndView mv = new ModelAndView("redirect:/");
+		ModelAndView mv = new ModelAndView("redirect:/user/login");
 		return mv;
 	}
 	
 	/* POST */
-	@RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
+	@RequestMapping(value = "/login/submit", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
 	public ModelAndView userLogin(
 			HttpServletRequest request, 
@@ -98,7 +122,7 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration/submit", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView userRegistration(
 			HttpServletRequest request, 

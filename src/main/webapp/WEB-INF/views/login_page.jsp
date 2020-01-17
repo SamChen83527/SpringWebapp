@@ -45,7 +45,7 @@
 								<h3 class="login-heading mb-4">${message}</h3>
 
 								<!-- Require Login() Object -->
-								<form:form id="loginForm" modelAttribute="login" action="user/login" method="POST">
+								<form:form id="loginForm" modelAttribute="login" action="login/submit" method="POST">
 								<!-- @modelAttribute annotates a bound model from this-view-invoking controller -->
 									
 									<!-- 'path attribute' correspond to a getter/setter of the model attribute -->
@@ -77,7 +77,7 @@
 								<form id="registerForm">
 									<button
 										class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
-										onclick="location.href='/springwebapp/user/register'"
+										onclick="location.href='/springwebapp/user/registration/submit'"
 										type="button">Registers</button>
 								</form>
 							</div>
