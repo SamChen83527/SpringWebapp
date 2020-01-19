@@ -1,6 +1,7 @@
 package idv.sam.springwebapp.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import idv.sam.springwebapp.model.UserLogin;
 import idv.sam.springwebapp.model.UserRegistation;
@@ -42,7 +44,7 @@ public class UserController {
 		return mv;
 	}
 	
-	/* return page */
+	/* return login page */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView enterLoginPage(
@@ -62,7 +64,17 @@ public class UserController {
 		
 		ModelAndView mv = new ModelAndView("login_page"); // target view
 		mv.addObject("login", new UserLogin());
-		mv.addObject("message", "Welcome back!!");
+		
+		Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+		
+		
+		if (inputFlashMap==null) {
+			mv.addObject("message", "Welcome back!!");
+		} else {
+			String message = (String) inputFlashMap.get("message");
+			mv.addObject("message", message);
+		}
+		
 		return mv;
 	}
 	

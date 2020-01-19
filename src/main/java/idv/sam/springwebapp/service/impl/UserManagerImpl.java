@@ -84,6 +84,7 @@ public class UserManagerImpl implements UserManager{
 		return jwt;
 	}
 	
+	// validate JWT and User name
 	@Override
 	public Boolean validateJWT(String clientJWTCookie) {
 		Boolean validation = false;
@@ -95,7 +96,7 @@ public class UserManagerImpl implements UserManager{
 			System.out.println(claims);
 			
 			String username = claims.getAudience();
-			// username is valid
+			// user name is valid
 			if(userDao.countUsernameNumber(username)==1) {
 				validation = true;
 			}
@@ -108,6 +109,32 @@ public class UserManagerImpl implements UserManager{
 		
 		return validation;
 	}
+	
+	// validate JWT and User name
+		@Override
+		public Boolean validateJWTAndIssuer(String clientJWTCookie) {
+			Boolean validation = false;
+			
+			Claims claims = JWTManager.decodeJWT(clientJWTCookie);
+			
+			// JWT is valid.
+			if (claims != null) {
+				System.out.println(claims);
+				
+				String username = claims.getAudience();
+				// user name is valid
+				if(userDao.countUsernameNumber(username)==1) {
+					validation = true;
+				}
+				
+			} 
+			// Decode failed, JWT is invalid.
+			else {
+				System.out.println("decode failed");
+			}
+			
+			return validation;
+		}
 	
 	
 	/* Registration */

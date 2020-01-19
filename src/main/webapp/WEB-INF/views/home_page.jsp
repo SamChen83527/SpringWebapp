@@ -25,17 +25,23 @@
 <script src="<c:url value="http://mbostock.github.com/d3/d3.js" />" ></script>
 <script src="<c:url value="/resources/javascript/chart.js" />" ></script>
 
+<!-- STA JavaScript -->
+<script src="<c:url value="/resources/javascript/$TA_JsLibrary.js" />" ></script>
+<script src="<c:url value="/resources/javascript/sta.js" />" ></script>
+
 <script>
+	var serverDomain = "https://sta.ci.taiwan.gov.tw/STA_AirQuality_v2/v1.0/";
+	var datastream_id = 10;
+	
 	var gauges = [];
 
-	function createGauge(name, label, min, max, unit) {
+	function createGauge(name, label, min, max) {
 		var config = {
 			size : 200,
 			label : label,
 			min : undefined != min ? min : 0,
 			max : undefined != max ? max : 100,
-			minorTicks : 5,
-			unit : unit
+			minorTicks : 5
 		}
 
 		var range = config.max - config.min;
@@ -59,16 +65,21 @@
 
 	function updateGauges() {
 		for ( var key in gauges) {
-			var value = 50 // input observation
+
+			var latestObsRS = getLatestObservation(createServerConnection(serverDomain), datastream_id);
+			var latestObs = latestObsRS.result;
+			
+			var value = latestObs; // input observation
 			gauges[key].redraw(value);
 		}
 	}
 
-	function initialize() {
-		createGauges();
+	function initialize(observedProperty, tag, min, max) {
+		createGauge(observedProperty, tag, min, max);
 		setInterval(updateGauges, 5000);
 	}
 </script>
+
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"> <!-- "class .navbar-expand" will expand collapse list when client resolution is enough -->
@@ -87,60 +98,54 @@
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Features</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#"
-					id="navbarDropdownMenuLink" data-toggle="dropdown"
-					aria-haspopup="true" aria-expanded="false">Dropdown link</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" 
+						href="#"
+						id="navbarDropdownMenuLink" 
+						data-toggle="dropdown"
+						aria-haspopup="true" 
+						aria-expanded="false">Dropdown link</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-						<a class="dropdown-item" href="#">Action</a> <a
-							class="dropdown-item" href="#">Another action</a> <a
-							class="dropdown-item" href="#">Something else here</a>
-					</div></li>
+						<a class="dropdown-item" href="#">Action</a> 
+						<a class="dropdown-item" href="#">Another action</a> 
+						<a class="dropdown-item" href="#">Something else here</a>
+					</div>
+				</li>
 			</ul>
+			
+			<form id="registerForm" class="form-inline my-2 my-lg-0">
+				<button
+					class="btn btn-outline-light btn-login font-weight-bold my-2 my-sm-0"
+					onclick="location.href='/springwebapp/user/logout'"
+					type="button">Logout</button>
+			</form>
 		</div>
 	</nav>
 
 
 	<div class="fluid-container">
-		<body onload="initialize()">
+		<body onload="initialize('pm2_5', 'PM 2.5', 0, 500)">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-sm-6 col-md-6">
-						<span id="temperatureGaugeContainer">
+						<span id="pm2_5GaugeContainer">
 					</div>
+				</div>
+			</div>
+		</body>
+		
+	</div>
+	<div class="fluid-container">
+		<body onload="initialize('pm2_5', 'PM 2.5', 0, 500)">
+			<div class="container">
+				<div class="row justify-content-center">
 					<div class="col-sm-6 col-md-6">
-						<span id="humidityGaugeContainer">
+						<span id="pm2_5GaugeContainer">
 					</div>
 				</div>
 			</div>
 		</body>
 	</div>
-	
-	<table border="1">
-
-		<tr>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>User Email</th>
-			<th>User Account Name</th>
-		</tr>
-
-		<tr>
-			<!-- <td>${userInfo.firstname}</td>
-			<td>${userInfo.lastname}</td>
-			<td>${userInfo.email}</td>
-			<td>${userInfo.username}</td> -->
-		</tr>
-
-	</table>
-	
-	<form id="registerForm">
-		<button
-			class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
-			onclick="location.href='/springwebapp/user/logout'"
-			type="button">Logout</button>
-	</form>
-
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->

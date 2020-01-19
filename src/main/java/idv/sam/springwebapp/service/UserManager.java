@@ -27,7 +27,9 @@ public interface UserManager {
 	String createJWT(String username, String email);
 
 	Boolean validateJWT(String clientJWTCookie);
+	
+	Boolean validateJWTAndIssuer(String clientJWTCookie);
 
-	UserLogin getUserByJWT(String clientJWTCookie);
+	UserLogin getUserByJWT(String clientJWTCookie);	
 	
 }

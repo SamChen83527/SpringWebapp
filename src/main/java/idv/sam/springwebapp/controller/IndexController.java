@@ -74,9 +74,8 @@ public class IndexController {
 			System.out.println("Client access direct link.");
 			
 			String message = (String) inputFlashMap.get("message");
-			ModelAndView mv = new ModelAndView("login_page"); // target view
-			mv.addObject("login", new UserLogin());
-			mv.addObject("message", message);
+			ModelAndView mv = new ModelAndView("redirect:/user/login");
+			redirectAttributes.addFlashAttribute("message", message);
 			return mv;
 		}
     }
@@ -138,22 +137,17 @@ public class IndexController {
 				} 
 				
 				// Client cookie is invalid.
-				else {
-					
+				else {					
 					System.out.println("Client cookie is invalid.");
-					ModelAndView mv = new ModelAndView("index"); // target view
-					mv.addObject("login", new UserLogin());
-					mv.addObject("message", "Welcome back!!");
+					ModelAndView mv = new ModelAndView("redirect:/user/login");
 					return mv;
 				}
 			} 
 			
 			// has no cookie, login manually first.
-			else {				
+			else {
 				System.out.println("No cookie, login manually first.");
-				ModelAndView mv = new ModelAndView("index"); // target view
-				mv.addObject("login", new UserLogin());
-				mv.addObject("message", "Welcome back!!");
+				ModelAndView mv = new ModelAndView("redirect:/user/login");
 				return mv;
 			}
 			
