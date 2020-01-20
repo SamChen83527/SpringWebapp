@@ -17,11 +17,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous">
-
-<!-- Custom styles for this template -->
-<link href="<c:url value="/resources/css/dashboard.css" />"
-	rel="stylesheet">
-
+	
 <title>Spring 4 MVC - User Home Page</title>
 
 <!-- Gauge JavaScript
@@ -30,8 +26,8 @@
 <script src="<c:url value="/resources/javascript/chart.js" />" ></script> -->
 
 <!-- STA JavaScript -->
-<script src="<c:url value="/resources/javascript/$TA_JsLibrary.js" />"></script>
-<script src="<c:url value="/resources/javascript/sta.js" />"></script>
+<script src="<c:url value="/resources/javascript/$TA_JsLibrary.js" />" ></script>
+<script src="<c:url value="/resources/javascript/sta.js" />" ></script>
 
 <!-- 
 <script>
@@ -87,72 +83,58 @@
 
 </head>
 <body>
-	<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-		<!-- <nav class="navbar navbar-expand-sm navbar-dark bg-dark"> --> <!-- "class .navbar-expand" will expand collapse list when client resolution is enough -->
-		<a class="navbar-brand h1 col-sm-3 col-md-2 my-0 my-sm-0" href="#">SENZOR</a>
-		
-		<button
-			class="btn btn-outline-light btn-login font-weight-bold my-0 my-sm-0 mr-2"
-			onclick="location.href='/springwebapp/user/logout'" type="button">Logout</button>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"> <!-- "class .navbar-expand" will expand collapse list when client resolution is enough -->
+		<a class="navbar-brand mb-0 h1" href="#">SENZOR</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<!-- "class .navbar-collapse" will turn <ul> into a collapse list when client resolution decrease -->
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link" href="#">Home
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" 
+						href="#"
+						id="navbarDropdownMenuLink" 
+						data-toggle="dropdown"
+						aria-haspopup="true" 
+						aria-expanded="false">Dropdown link</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" href="#">Action</a> 
+						<a class="dropdown-item" href="#">Another action</a> 
+						<a class="dropdown-item" href="#">Something else here</a>
+					</div>
+				</li>
+			</ul>
+			
+			<form id="registerForm" class="form-inline my-2 my-lg-0">
+				<button
+					class="btn btn-outline-light btn-login font-weight-bold my-2 my-sm-0"
+					onclick="location.href='/springwebapp/user/logout'"
+					type="button">Logout</button>
+			</form>
+		</div>
 	</nav>
 
-	<div class="container-fluid">
-		<div class="row">
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-				<div class="sidebar-sticky">
-					<ul class="nav flex-column">
-						<li class="nav-item"><a class="nav-link active" href="#">
-								<span data-feather="home"></span> Dashboard <span class="sr-only">(current)</span>
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="bar-chart-2"></span> TO-DO
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="layers"></span> TO-DO
-						</a></li>
-					</ul>
-	
-					<h6
-						class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<span>TO-DO LIST</span> <a
-							class="d-flex align-items-center text-muted" href="#"> <span
-							data-feather="plus-circle"></span>
-						</a>
-					</h6>
-					<ul class="nav flex-column mb-2">
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="file-text"></span> TO-DO
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="file-text"></span> TO-DO
-						</a></li>
-					</ul>
-				</div>
-			</nav>
 
-			<main role="main" class="col-md-10 ml-sm-auto col-lg-10 pt-3 px-4">
-				<div class="row">
-					<div class="col" id="chartdiv"></div>
-				</div>
-				<div class="row">
-					<div class="col" id="historial_chartdiv"></div>
-				</div>
-			</main>
-		</div>
-
+	<div class="fluid-container">
+		<div id="chartdiv"></div>
 	</div>
-
-
-
-
+	
 	<!-- Gauge JavaScript -->
-	<link href="<c:url value="/resources/css/chart_style.css" />"
-		rel="stylesheet">
+	<link href="<c:url value="/resources/css/chart_style.css" />" rel="stylesheet">
 	<script src="https://www.amcharts.com/lib/4/core.js"></script>
 	<script src="https://www.amcharts.com/lib/4/charts.js"></script>
 	<script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
 	<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-	<script src="<c:url value="/resources/javascript/chart.js" />"></script>
+	<script src="<c:url value="/resources/javascript/chart.js" />" ></script>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
