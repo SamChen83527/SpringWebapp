@@ -170,7 +170,7 @@ public class UserController {
 	    		user_registration.setRegistationStatus("INVALID_USERNAME_EXISTS");
 	    		
 	    		// redirect	
-				ModelAndView mv = new ModelAndView("redirect:/user/register");
+				ModelAndView mv = new ModelAndView("redirect:/user/registration");
 				return mv;
 	    	}
 	    } else {
@@ -178,7 +178,7 @@ public class UserController {
 	    	user_registration.setRegistationStatus("INVALID_EMAIL_EXISTS");
 	    	
 	    	// redirect	
-			ModelAndView mv = new ModelAndView("redirect:/user/register");
+			ModelAndView mv = new ModelAndView("redirect:/user/registration");
 			return mv;
 	    }
 	}

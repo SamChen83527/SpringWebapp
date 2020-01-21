@@ -38,7 +38,7 @@
 							<div class="col-md-9 col-lg-8 mx-auto">
 								<h3 class="registration-title mb-4">Sign Up</h3>
 								
-								<form:form class="form-signin" id="registrationForm" modelAttribute="user_registration" action="registration" method="POST">
+								<form:form class="form-signin" id="registrationForm" modelAttribute="user_registration" action="registration/submit" method="POST">
 									<div class="form-label-group">
 										<form:input path="firstname" type="text" id="inputFirstName" class="form-control" placeholder="First Name" required="required" autofocus="autofocus" />
 										<form:label path="firstname" for="inputFirstName">First name</form:label>

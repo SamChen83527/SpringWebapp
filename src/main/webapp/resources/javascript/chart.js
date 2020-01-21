@@ -1,18 +1,46 @@
-window.onload = onloadFunctions();
+var serverDomain = document.getElementById("dashboard").getAttribute("server_domain");
+var datastream_id = document.getElementById("dashboard").getAttribute("datastream_id");
+var latestObs;
 
-function onloadFunctions(){
-	createPM25Gauge("chartdiv", "https://sta.ci.taiwan.gov.tw/STA_AirQuality_v2/v1.0/", 609);
-	drawHistoricalData("historial_chartdiv", "https://sta.ci.taiwan.gov.tw/STA_AirQuality_v2/v1.0/", 609);
+window.onload = onloadFunctions(serverDomain, datastream_id);
+
+function onloadFunctions(serverDomain, datastream_id){
+	// Refresh latest observation
+	latestObs = getLatestObservation(createServerConnection(serverDomain), datastream_id);
+	setInterval(function(){
+			latestObs = getLatestObservation(createServerConnection(serverDomain), 609);
+		},5000);
+	
+	createPM25Gauge("chartdiv", serverDomain, datastream_id);
+	drawHistoricalData("historial_chartdiv", serverDomain, datastream_id);
+	drawMap("mapdiv", serverDomain, datastream_id);
 }
 
 function drawHistoricalData(div_id, serverDomain, datastream_id){
-	let Model = $TA.Model('Datastream',{id:datastream_id}).$expand($TA.Model('Observation').$filter("phenomenonTime ge 2019-11-10T12:00:00.000Z and Datastreams/Observations/phenomenonTime le 2020-12-12T12:00:00.000Z")).$orderby("Datastream/id");
+	let Model = $TA.Model('Datastream',{id:datastream_id})
+						.$expand(
+								$TA.Model('Observation')
+									.$filter("phenomenonTime ge 2019-11-10T12:00:00.000Z and phenomenonTime le 2020-12-12T12:00:00.000Z")
+						);
 	
 	var sta_connection = createServerConnection(serverDomain);
 	sta_connection.getFormatData(Model,function(ResultSet){
 	    let divID = div_id; //設定圖表繪製的位置
 	    let Display = $TA.Display() //建立Display()物件
 	    Display.drawChart(divID,ResultSet); //用drawChart()繪製圖表、並回傳chart物件
+	});
+}
+
+function drawMap(div_id, serverDomain, datastream_id){
+	let Model = $TA.Model('Thing')
+						.$filter("Datastream/id eq "+ datastream_id)
+						.$expand($TA.Model('Location'));
+	
+	var sta_connection = createServerConnection(serverDomain);
+	sta_connection.getFormatData(Model,function(ResultSet){
+	    let divID = div_id; //設定地圖繪製的位置
+	    let Display = $TA.Display(); //建立一個Display()物件
+	    Display.drawMap(divID,ResultSet) //用drawMap()繪製地圖、並回傳map物件   
 	});
 }
 
@@ -83,8 +111,8 @@ function createPM25Gauge(div_id, serverDomain, datastream_id){
 	
 	setInterval(function () {
 	    hand.showValue(
-	    		getLatestObservation(sta_connection, datastream_id).result, 
+	    		latestObs.result, 
 	    		2000, 
 	    		am4core.ease.cubicOut);
-	}, 5000);
+	}, 2*1000);
 }
